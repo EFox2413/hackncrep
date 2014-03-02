@@ -1,0 +1,15 @@
+<<<<<<< HEAD
+test/coverage/*
+examples/*
+dist/
+composer.lock
+vendor
+.env*
+=======
+test/coverage/*
+examples/*
+dist/
+composer.lock
+vendor
+.env*
+>>>>>>> af0a2727ea435dd4d3b9bdc153da58b37d413854

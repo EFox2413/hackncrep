@@ -1,0 +1,76 @@
+{
+   "login":
+   {
+      "username":"jrdbnntt",
+      "password":"hackFSU"
+   },
+   "send":
+   {
+      "from":"game@r.bymail.in"
+   },
+   "player":
+   {
+      "red":true,
+      "blue":false,
+      "green":false,
+      "black":false,
+      "yellow":false,
+      "white":false,
+      "purple":false,
+      "orange":false,
+      
+      "normal":true,
+      "zelda":false,
+      "pokemon":true,
+      "hacknc":true,
+      "doge":true
+   },
+   "wall":
+   {
+      "red":true,
+      "blue":false,
+      "green":false,
+      "black":false,
+      "yellow":false,
+      "white":false,
+      "purple":false,
+      "orange":false,
+      
+      "normal":true,
+      "zelda":false,
+      "pokemon":true,
+      "hacknc":true,
+      "doge":true
+   },
+   "ground":
+   {
+      "red":true,
+      "blue":false,
+      "green":false,
+      "black":false,
+      "yellow":false,
+      "white":false,
+      "purple":false,
+      "orange":false,
+      
+      "normal":true,
+      "zelda":false,
+      "pokemon":true,
+      "hacknc":true,
+      "doge":true
+   },
+   
+   "left":false,
+   "right":false,
+   "up":false,
+   "down":false,
+   
+   
+   "normal":true,
+   "zelda":false,
+   "pokemon":false,
+   "hacknc":false,
+   "doge":false,
+   
+   "respawn":true
+}

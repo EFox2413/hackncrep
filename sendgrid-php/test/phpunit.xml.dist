@@ -1,0 +1,21 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="bootstrap.php">
+  <testsuites>
+    <testsuite name="General">
+      <file>./SendGrid.php</file>
+      <file>./SendGrid/Email.php</file>
+    </testsuite>
+  </testsuites>
+</phpunit>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="bootstrap.php">
+  <testsuites>
+    <testsuite name="General">
+      <file>./SendGrid.php</file>
+      <file>./SendGrid/Email.php</file>
+    </testsuite>
+  </testsuites>
+</phpunit>
+>>>>>>> af0a2727ea435dd4d3b9bdc153da58b37d413854
