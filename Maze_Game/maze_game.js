@@ -3,7 +3,7 @@ dojo.provide('maze_game');
 dojo.declare('maze_game', null,
 {
 	canvas: null,
-	context(this.sizeLength/2)D: null,
+	context2D: null,
 	FPS: 10,
 	keyPressed: false,
 	maze: null,
@@ -14,7 +14,7 @@ dojo.declare('maze_game', null,
 	playerImage: new Image(),
 	wallImage: new Image(),
 	tileWidth: 40,
-	sideLength:5,
+	sideLength:13,
 	//playerRelativeSize: 0.33,
 	current_row: 51,
 	current_column: 51,
@@ -22,7 +22,7 @@ dojo.declare('maze_game', null,
 	constructor: function()
 	{
 		this.canvas=document.getElementById("canvas");
-		this.context(this.sizeLength/2)D=canvas.getContext('(this.sizeLength/2)d');
+		this.context2D=canvas.getContext('2d');
 
 		this.backgroundImage.src="white.png";
 		this.finishImage.src="yellow.png";
@@ -47,7 +47,7 @@ dojo.declare('maze_game', null,
 		{
 			if(mazeFile.readyState===4)
 			{
-				if(mazeFile.status===(this.sizeLength/2)00 || mazeFile.status===0)
+				if(mazeFile.status===200 || mazeFile.status===0)
 				{
 					var fileText=mazeFile.responseText;
 					this.generateGameMaze(fileText);
@@ -87,7 +87,7 @@ dojo.declare('maze_game', null,
 		var xhttp =new XMLHttpRequest();
         xhttp.onreadystatechange=dojo.hitch(this, function()
         {
-            if (xhttp.readyState===4 && xhttp.status===(this.sizeLength/2)00)
+            if (xhttp.readyState===4 && xhttp.status===200)
             {
                     var obj = JSON.parse(xhttp.responseText);
                     
@@ -98,12 +98,31 @@ dojo.declare('maze_game', null,
 
                    	//Set player color
 							if(obj.player.red)
-								//alert("Player color set to red");
-								this.setPlayerImage('red.png');
+								this.setPlayerImage('../assets/player/red.png');
 							else if(obj.player.blue)
-								this.setPlayerImage('blue.png');
+								this.setPlayerImage('../assets/player/blue.png');
 							else if(obj.player.green)
-								this.setPlayerImage('green.png');
+								this.setPlayerImage('../assets/player/green.png');
+							else if(obj.player.black)
+								this.setPlayerImage('../assets/player/black.png');
+							else if(obj.player.yellow)
+								this.setPlayerImage('../assets/player/yellow.png');
+							else if(obj.player.white)
+								this.setPlayerImage('../assets/player/white.png');
+							else if(obj.player.purple)
+								this.setPlayerImage('../assets/player/purple.png');
+							else if(obj.player.orange)
+								this.setPlayerImage('../assets/player/orange.png');
+							else if(obj.player.normal)
+								this.setPlayerImage('../assets/player/normal.png');
+							else if(obj.player.zelda)
+								this.setPlayerImage('../assets/player/zelda.png');
+							else if(obj.player.pokemon)
+								this.setPlayerImage('../assets/player/pokemon.png');
+							else if(obj.player.hacknc)
+								this.setPlayerImage('../assets/player/pokemon.png');
+							else if(obj.player.doge)
+								this.setPlayerImage('../assets/player/pokemon.png');
 
 							if(obj.left)
 							{
@@ -168,123 +187,123 @@ dojo.declare('maze_game', null,
 		var row, column;
 
 		//Are we in middle of maze or near its top and/or left edges?
-		if(this.current_row+(this.sizeLength/2)<this.maze.length && this.current_column+(this.sizeLength/2)<this.maze[0].length)
+		if(this.current_row+2<this.maze.length && this.current_column+2<this.maze[0].length)
 		{
-			for(row=0;row<this.sizeLength;row++)
+			for(row=0;row<this.sideLength;row++)
 			{
-				for(column=0;column<this.sizeLength;column++)
+				for(column=0;column<this.sideLength;column++)
 				{
-					if(this.maze[Math.max(this.current_row+row-(this.sizeLength/2), row)][Math.max(this.current_column+column-(this.sizeLength/2), column)]=='O')
-						this.draw_image(this.wallImage, column*this.canvas.width/this.sizeLength, row*this.canvas.height/this.sizeLength, 
-							this.canvas.width/this.sizeLength, this.canvas.height/this.sizeLength);
-					else if(this.maze[Math.max(this.current_row+row-(this.sizeLength/2), row)][Math.max(this.current_column+column-(this.sizeLength/2), column)]=='G')
-						this.draw_image(this.finishImage, column*this.canvas.width/this.sizeLength, 
-							row*this.canvas.height/this.sizeLength, this.canvas.width/this.sizeLength, this.canvas.height/this.sizeLength);
+					if(this.maze[Math.max(this.current_row+row-2, row)][Math.max(this.current_column+column-2, column)]=='O')
+						this.draw_image(this.wallImage, column*this.canvas.width/this.sideLength, row*this.canvas.height/this.sideLength, 
+							this.canvas.width/this.sideLength, this.canvas.height/this.sideLength);
+					else if(this.maze[Math.max(this.current_row+row-2, row)][Math.max(this.current_column+column-2, column)]=='G')
+						this.draw_image(this.finishImage, column*this.canvas.width/this.sideLength, 
+							row*this.canvas.height/this.sideLength, this.canvas.width/this.sideLength, this.canvas.height/this.sideLength);
 					else
-						this.draw_image(this.backgroundImage, column*this.canvas.width/this.sizeLength, 
-							row*this.canvas.height/this.sizeLength, this.canvas.width/this.sizeLength, this.canvas.height/this.sizeLength);
+						this.draw_image(this.backgroundImage, column*this.canvas.width/this.sideLength, 
+							row*this.canvas.height/this.sideLength, this.canvas.width/this.sideLength, this.canvas.height/this.sideLength);
 				}
 			}
 
 			this.draw_image(this.playerImage, 
-				Math.min((this.sizeLength/2)*this.canvas.width/this.sizeLength, this.canvas.width/this.sizeLength*this.current_column)+this.canvas.width/(this.sizeLength*3), 
-				Math.min((this.sizeLength/2)*this.canvas.height/this.sizeLength, this.canvas.height/this.sizeLength*this.current_row)+this.canvas.height/(this.sizeLength*3), 
-				this.canvas.width/(this.sizeLength*3), 
-				this.canvas.height/(this.sizeLength*3));
+				Math.min(2*this.canvas.width/this.sideLength, this.canvas.width/this.sideLength*this.current_column)+this.canvas.width/(this.sideLength*3), 
+				Math.min(2*this.canvas.height/this.sideLength, this.canvas.height/this.sideLength*this.current_row)+this.canvas.height/(this.sideLength*3), 
+				this.canvas.width/(this.sideLength*3), 
+				this.canvas.height/(this.sideLength*3));
 		}
 
 		//Are we in the lower right corner next to the goal?
-		else if(this.current_row+(this.sizeLength/2)==this.maze.length && this.current_column+(this.sizeLength/2)==this.maze[0].length)
+		else if(this.current_row+2==this.maze.length && this.current_column+2==this.maze[0].length)
 		{
-			for(row=0;row<this.sizeLength;row++)
+			for(row=0;row<this.sideLength;row++)
 			{
-				for(column=0;column<this.sizeLength;column++)
+				for(column=0;column<this.sideLength;column++)
 				{
 					if(this.maze[this.maze.length-5+row][this.maze[0].length-5+column]=='O')
-						this.draw_image(this.wallImage, column*this.canvas.width/this.sizeLength, 
-							row*this.canvas.height/this.sizeLength, this.canvas.width/this.sizeLength, this.canvas.height/this.sizeLength);
+						this.draw_image(this.wallImage, column*this.canvas.width/this.sideLength, 
+							row*this.canvas.height/this.sideLength, this.canvas.width/this.sideLength, this.canvas.height/this.sideLength);
 					else if(this.maze[this.maze.length-5+row][this.maze[0].length-5+column]=='G')
-						this.draw_image(this.finishImage, column*this.canvas.width/this.sizeLength, 
-							row*this.canvas.height/this.sizeLength, this.canvas.width/this.sizeLength, this.canvas.height/this.sizeLength);
+						this.draw_image(this.finishImage, column*this.canvas.width/this.sideLength, 
+							row*this.canvas.height/this.sideLength, this.canvas.width/this.sideLength, this.canvas.height/this.sideLength);
 					else
 						this.draw_image(this.backgroundImage, 
-							column*this.canvas.width/this.sizeLength, 
-							row*this.canvas.height/this.sizeLength, 
-							this.canvas.width/this.sizeLength, 
-							this.canvas.height/this.sizeLength);
+							column*this.canvas.width/this.sideLength, 
+							row*this.canvas.height/this.sideLength, 
+							this.canvas.width/this.sideLength, 
+							this.canvas.height/this.sideLength);
 				}
 			}
 
 			this.draw_image(this.playerImage, 
-				3*this.canvas.width/this.sizeLength+this.canvas.width/(this.sizeLength*3), 
-				3*this.canvas.height/this.sizeLength+this.canvas.height/(this.sizeLength*3), 
-				this.canvas.width/(this.sizeLength*3), 
-				this.canvas.height/(this.sizeLength*3));
+				3*this.canvas.width/this.sideLength+this.canvas.width/(this.sideLength*3), 
+				3*this.canvas.height/this.sideLength+this.canvas.height/(this.sideLength*3), 
+				this.canvas.width/(this.sideLength*3), 
+				this.canvas.height/(this.sideLength*3));
 		}
 
 		//Are we at the bottom of the maze?
-		else if(this.current_row+(this.sizeLength/2)==this.maze.length)
+		else if(this.current_row+2==this.maze.length)
 		{
-			for(row=0;row<this.sizeLength;row++)
+			for(row=0;row<this.sideLength;row++)
 			{
-				for(column=0;column<this.sizeLength;column++)
+				for(column=0;column<this.sideLength;column++)
 				{
-					if(this.maze[this.maze.length-5+row][Math.max(this.current_column+column-(this.sizeLength/2), column)]=='O')
-						this.draw_image(this.wallImage, column*this.canvas.width/this.sizeLength, 
-							row*this.canvas.height/this.sizeLength, this.canvas.width/this.sizeLength, this.canvas.height/this.sizeLength);
-					else if(this.maze[this.maze.length-5+row][Math.max(this.current_column+column-(this.sizeLength/2), column)]=='G')
-						this.draw_image(this.finishImage, column*this.canvas.width/this.sizeLength, 
-							row*this.canvas.height/this.sizeLength, this.canvas.width/this.sizeLength, this.canvas.height/this.sizeLength);
+					if(this.maze[this.maze.length-5+row][Math.max(this.current_column+column-2, column)]=='O')
+						this.draw_image(this.wallImage, column*this.canvas.width/this.sideLength, 
+							row*this.canvas.height/this.sideLength, this.canvas.width/this.sideLength, this.canvas.height/this.sideLength);
+					else if(this.maze[this.maze.length-5+row][Math.max(this.current_column+column-2, column)]=='G')
+						this.draw_image(this.finishImage, column*this.canvas.width/this.sideLength, 
+							row*this.canvas.height/this.sideLength, this.canvas.width/this.sideLength, this.canvas.height/this.sideLength);
 					else
 						this.draw_image(this.backgroundImage, 
-						column*this.canvas.width/this.sizeLength, 
-						row*this.canvas.height/this.sizeLength, 
-						this.canvas.width/this.sizeLength, 
-						this.canvas.height/this.sizeLength);
+						column*this.canvas.width/this.sideLength, 
+						row*this.canvas.height/this.sideLength, 
+						this.canvas.width/this.sideLength, 
+						this.canvas.height/this.sideLength);
 				}
 			}
 
 			this.draw_image(this.playerImage, 
-				Math.min((this.sizeLength/2)*this.canvas.width/this.sizeLength, 
-					 this.canvas.width/this.sizeLength*this.current_column)+this.canvas.height/(this.sizeLength*3),
-					 3*this.canvas.height/this.sizeLength+this.canvas.height/(this.sizeLength*3), 
-					 this.canvas.width/(this.sizeLength*3), 
-					 this.canvas.height/(this.sizeLength*3));
+				Math.min(2*this.canvas.width/this.sideLength, 
+					 this.canvas.width/this.sideLength*this.current_column)+this.canvas.height/(this.sideLength*3),
+					 3*this.canvas.height/this.sideLength+this.canvas.height/(this.sideLength*3), 
+					 this.canvas.width/(this.sideLength*3), 
+					 this.canvas.height/(this.sideLength*3));
 		}
 
 		//Are we on the right side of the maze?
 		else
 		{
-			for(row=0;row<this.sizeLength;row++)
+			for(row=0;row<this.sideLength;row++)
 			{
-				for(column=0;column<this.sizeLength;column++)
+				for(column=0;column<this.sideLength;column++)
 				{
 					if(!this.isGameRunning)
 						return;
 
-					if(this.maze[Math.max(this.current_row+row-(this.sizeLength/2), row)][this.maze[0].length-5+column]=='O')
-						this.draw_image(this.wallImage, column*this.canvas.width/this.sizeLength, 
-							row*this.canvas.height/this.sizeLength, this.canvas.width/this.sizeLength, this.canvas.height/this.sizeLength);
-					else if(this.maze[this.maze.length-5+row][Math.max(this.current_column+column-(this.sizeLength/2), column)]=='G')
-						this.draw_image(this.finishImage, column*this.canvas.width/this.sizeLength, 
-							row*this.canvas.height/this.sizeLength, this.canvas.width/this.sizeLength, this.canvas.height/this.sizeLength);
+					if(this.maze[Math.max(this.current_row+row-2, row)][this.maze[0].length-5+column]=='O')
+						this.draw_image(this.wallImage, column*this.canvas.width/this.sideLength, 
+							row*this.canvas.height/this.sideLength, this.canvas.width/this.sideLength, this.canvas.height/this.sideLength);
+					else if(this.maze[this.maze.length-5+row][Math.max(this.current_column+column-2, column)]=='G')
+						this.draw_image(this.finishImage, column*this.canvas.width/this.sideLength, 
+							row*this.canvas.height/this.sideLength, this.canvas.width/this.sideLength, this.canvas.height/this.sideLength);
 					else
-						this.draw_image(this.backgroundImage, column*this.canvas.width/this.sizeLength, 
-							row*this.canvas.height/this.sizeLength, this.canvas.width/this.sizeLength, this.canvas.height/this.sizeLength);
+						this.draw_image(this.backgroundImage, column*this.canvas.width/this.sideLength, 
+							row*this.canvas.height/this.sideLength, this.canvas.width/this.sideLength, this.canvas.height/this.sideLength);
 				}
 			}
 
 			this.draw_image(this.playerImage, 
-				3*this.canvas.width/this.sizeLength+this.canvas.width/(this.sizeLength*3), 
-				Math.min((this.sizeLength/2)*this.canvas.height/this.sizeLength, this.canvas.height/this.sizeLength*this.current_row)+this.canvas.height/(this.sizeLength*3), 
-				this.canvas.width/(this.sizeLength*3), 
-				this.canvas.height/(this.sizeLength*3));
+				3*this.canvas.width/this.sideLength+this.canvas.width/(this.sideLength*3), 
+				Math.min(2*this.canvas.height/this.sideLength, this.canvas.height/this.sideLength*this.current_row)+this.canvas.height/(this.sideLength*3), 
+				this.canvas.width/(this.sideLength*3), 
+				this.canvas.height/(this.sideLength*3));
 		}
 	},
 
 	draw_image: function(img, x, y, width, height)
 	{
-		this.context(this.sizeLength/2)D.drawImage(img, x, y, width, height);
+		this.context2D.drawImage(img, x, y, width, height);
 	},
 
 	onKeyDown: function(evt)
@@ -337,7 +356,7 @@ dojo.declare('maze_game', null,
 		else if(this.hasWon)
 		{
 			//Did we push down the spacebar?
-			if(evt.keyCode==3(this.sizeLength/2))
+			if(evt.keyCode==32)
 			{
 				this.isGameRunning=true;
 				this.hasWon=false;
